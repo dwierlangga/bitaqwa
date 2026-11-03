@@ -1,4 +1,4 @@
-﻿import 'package:bitaqwa/dashboard/menu_data.dart';
+import 'package:bitaqwa/dashboard/menu_data.dart';
 import 'package:bitaqwa/dashboard/color_constant.dart';
 import 'package:flutter/material.dart';
 
@@ -38,7 +38,7 @@ class BasicDashboardScreen extends StatelessWidget {
                 ],
               ),
               child: Container(
-                padding: const EdgeInsets.fromLTRB(24, 48, 24, 28),
+                padding: const EdgeInsets.fromLTRB(24, 48, 24, 24),
                 decoration: BoxDecoration(
                   borderRadius: const BorderRadius.only(
                     bottomLeft: Radius.circular(28),
@@ -48,33 +48,107 @@ class BasicDashboardScreen extends StatelessWidget {
                     begin: Alignment.topCenter,
                     end: Alignment.bottomCenter,
                     colors: [
-                      Colors.black.withValues(alpha: 0.1),
-                      Colors.black.withValues(alpha: 0.55),
+                      ColorConstant.colorPrimaryDark.withValues(alpha: 0.35),
+                      Colors.black.withValues(alpha: 0.65),
                     ],
                   ),
                 ),
-                child: const Column(
+                child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisAlignment: MainAxisAlignment.end,
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text(
-                      'Assalamu\'alaikum,',
-                      style: TextStyle(
-                        fontSize: 16,
-                        color: Colors.white70,
-                        fontWeight: FontWeight.w500,
-                        letterSpacing: 0.3,
-                      ),
+                    // BAR ATAS: Tagline di kiri dan Logo IDN di kanan
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        // Chip Tagline Islami kecil
+                        Container(
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 10,
+                            vertical: 5,
+                          ),
+                          decoration: BoxDecoration(
+                            color: Colors.white.withValues(alpha: 0.18),
+                            borderRadius: BorderRadius.circular(20),
+                            border: Border.all(
+                              color: Colors.white.withValues(alpha: 0.25),
+                            ),
+                          ),
+                          child: const Row(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              Icon(
+                                Icons.stars_rounded,
+                                color: Colors.white,
+                                size: 14,
+                              ),
+                              SizedBox(width: 5),
+                              Text(
+                                'Islamic Lifestyle',
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 11,
+                                  fontWeight: FontWeight.w500,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                        // Logo IDN
+                        Container(
+                          height: 38,
+                          width: 48,
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 5,
+                            vertical: 4,
+                          ),
+                          decoration: BoxDecoration(
+                            color: Colors.white,
+                            borderRadius: BorderRadius.circular(10),
+                            boxShadow: [
+                              BoxShadow(
+                                color: Colors.black.withValues(alpha: 0.15),
+                                blurRadius: 6,
+                                offset: const Offset(0, 2),
+                              ),
+                            ],
+                          ),
+                          child: ClipRRect(
+                            borderRadius: BorderRadius.circular(6),
+                            child: Image.asset(
+                              'assets/images/logo.png',
+                              fit: BoxFit.contain,
+                            ),
+                          ),
+                        ),
+                      ],
                     ),
-                    SizedBox(height: 6),
-                    Text(
-                      'Bitaqwa App',
-                      style: TextStyle(
-                        fontSize: 26,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.white,
-                        letterSpacing: 0.5,
-                      ),
+
+                    // TEKS SAPAAN DI BAGIAN BAWAH BANNER
+                    const Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          'Assalamu\'alaikum,',
+                          style: TextStyle(
+                            fontSize: 15,
+                            color: Colors.white70,
+                            fontWeight: FontWeight.w500,
+                            letterSpacing: 0.3,
+                          ),
+                        ),
+                        SizedBox(height: 4),
+                        Text(
+                          'Bitaqwa App',
+                          style: TextStyle(
+                            fontSize: 26,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.white,
+                            letterSpacing: 0.5,
+                          ),
+                        ),
+                      ],
                     ),
                   ],
                 ),
@@ -116,7 +190,7 @@ class BasicDashboardScreen extends StatelessWidget {
                 itemBuilder: (context, index) {
                   final menu = menus[index];
                   return Material(
-                    color: Colors.white,
+                    color: const Color.fromARGB(255, 255, 255, 255),
                     borderRadius: BorderRadius.circular(18),
                     elevation: 1.5,
                     shadowColor: Colors.black.withValues(alpha: 0.12),

@@ -1,4 +1,4 @@
-﻿name: bitaqwa
+name: bitaqwa
 description: 'Aplikasi Islami Bitaqwa - Tugas Kelas 9'
 publish_to: 'none'
 
@@ -29,6 +29,7 @@ flutter:
 
   assets:
     - assets/images/
+    - assets/images/logo.png
 
   fonts:
     - family: PoppinsBold
