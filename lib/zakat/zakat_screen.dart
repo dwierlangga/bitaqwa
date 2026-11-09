@@ -26,7 +26,7 @@ class _ZakatScreenState extends State<ZakatScreen> {
         thousandSeparator: '.',
         precision: 0,
         decimalSeparator: '',
-        initialValue: 1400000, // Nilai default estimasi harga emas per gram
+        initialValue: 2500000, // Nilai default estimasi harga emas per gram
       );
 
   // Variabel penampung status & hasil kalkulasi
@@ -138,7 +138,7 @@ class _ZakatScreenState extends State<ZakatScreen> {
                     alignment: Alignment.center,
                     child: const Icon(
                       Icons.calculate,
-                      color: Colors.white,
+                      color: Color.fromARGB(255, 255, 238, 0),
                       size: 48,
                     ),
                   );
@@ -152,15 +152,8 @@ class _ZakatScreenState extends State<ZakatScreen> {
             Container(
               padding: const EdgeInsets.all(20),
               decoration: BoxDecoration(
-                color: Colors.white,
                 borderRadius: BorderRadius.circular(20),
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.black.withOpacity(0.04),
-                    blurRadius: 12,
-                    offset: const Offset(0, 4),
-                  ),
-                ],
+                border: Border.all(color: ColorConstant.colorPrimary),
               ),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -187,13 +180,16 @@ class _ZakatScreenState extends State<ZakatScreen> {
                         horizontal: 16,
                         vertical: 14,
                       ),
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(12),
-                        borderSide: BorderSide(color: Colors.grey.shade300),
-                      ),
                       enabledBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(12),
                         borderSide: BorderSide(color: Colors.grey.shade300),
+                      ),
+                      focusedBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(12),
+                        borderSide: BorderSide(
+                          color: ColorConstant.colorPrimary,
+                          width: 2,
+                        ),
                       ),
                     ),
                   ),
@@ -235,13 +231,16 @@ class _ZakatScreenState extends State<ZakatScreen> {
                         horizontal: 16,
                         vertical: 14,
                       ),
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(12),
-                        borderSide: BorderSide(color: Colors.grey.shade300),
-                      ),
                       enabledBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(12),
                         borderSide: BorderSide(color: Colors.grey.shade300),
+                      ),
+                      focusedBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(12),
+                        borderSide: BorderSide(
+                          color: ColorConstant.colorPrimary,
+                          width: 2,
+                        ),
                       ),
                     ),
                   ),
