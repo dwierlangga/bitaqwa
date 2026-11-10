@@ -26,7 +26,7 @@ class _ZakatScreenState extends State<ZakatScreen> {
         thousandSeparator: '.',
         precision: 0,
         decimalSeparator: '',
-        initialValue: 2500000, // Nilai default estimasi harga emas per gram
+        initialValue: 2400000, // Nilai default estimasi harga emas per gram
       );
 
   // Variabel penampung status & hasil kalkulasi

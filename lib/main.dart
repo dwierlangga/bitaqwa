@@ -6,7 +6,7 @@ import 'package:bitaqwa/dashboard/basicdashboard_screen.dart';
 import 'package:bitaqwa/zakat/zakat_screen.dart';
 
 // TUGAS 3 - Kajian Online (belum dihubungkan)
-// import 'package:bitaqwa/kajian_online/video_kajian_screen.dart';
+import 'package:bitaqwa/kajian_online/video_kajian_screen.dart';
 
 // TUGAS 4 - Doa Harian (belum dihubungkan)
 // import 'package:bitaqwa/doa_harian/doa_screen.dart';
@@ -57,7 +57,7 @@ class MyApp extends StatelessWidget {
         'zakat': (context) => const ZakatScreen(),
 
         // TUGAS 3 - Tambahkan route kajian di sini saat mengerjakan Tugas 3:
-        // 'video-kajian': (context) => const VideoKajianScreen(),
+        'video-kajian': (context) => const VideoKajianScreen(),
 
         // TUGAS 4 - Tambahkan route doa di sini saat mengerjakan Tugas 4:
         // 'doa': (context) => const DoaScreen(),
