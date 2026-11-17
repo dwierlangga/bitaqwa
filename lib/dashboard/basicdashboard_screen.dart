@@ -1,267 +1,320 @@
 import 'package:bitaqwa/dashboard/menu_data.dart';
-import 'package:bitaqwa/dashboard/color_constant.dart';
+import 'package:bitaqwa/theme/color_constant.dart';
 import 'package:flutter/material.dart';
 
-// SCREEN BASIC DASHBOARD: Tampilan beranda aplikasi yang menyapa pengguna dan menampilkan menu fitur
+// SCREEN BASIC DASHBOARD: Tampilan beranda modern, bernuansa Islami Emerald
 class BasicDashboardScreen extends StatelessWidget {
   const BasicDashboardScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xFFF8FAFC),
+      backgroundColor: ColorConstant.colorBackground,
       body: SingleChildScrollView(
         child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // 1. BANNER HEADER ATAS DENGAN GRADIENT & SHADOW ELEGAN
+            // 1. BANNER HEADER ATAS ELEGAN DENGAN LAYER OVERLAY GRADASI
             Container(
               height: 250,
               width: double.infinity,
-              decoration: BoxDecoration(
-                image: const DecorationImage(
-                  image: AssetImage('assets/images/dashboard.jpg'),
+              decoration: const BoxDecoration(
+                gradient: ColorConstant.primaryGradient,
+                image: DecorationImage(
+                  image: AssetImage('assets/images/bg_header_dashboard_morning.png'),
                   fit: BoxFit.cover,
                 ),
-                borderRadius: const BorderRadius.only(
-                  bottomLeft: Radius.circular(28),
-                  bottomRight: Radius.circular(28),
+                borderRadius: BorderRadius.only(
+                  bottomLeft: Radius.circular(32),
+                  bottomRight: Radius.circular(32),
                 ),
-                boxShadow: [
-                  BoxShadow(
-                    color: ColorConstant.colorPrimaryDark.withValues(
-                      alpha: 0.25,
-                    ),
-                    blurRadius: 18,
-                    offset: const Offset(0, 8),
-                  ),
-                ],
               ),
               child: Container(
-                padding: const EdgeInsets.fromLTRB(24, 48, 24, 24),
                 decoration: BoxDecoration(
                   borderRadius: const BorderRadius.only(
-                    bottomLeft: Radius.circular(28),
-                    bottomRight: Radius.circular(28),
+                    bottomLeft: Radius.circular(32),
+                    bottomRight: Radius.circular(32),
                   ),
                   gradient: LinearGradient(
+                    colors: [
+                      Colors.black.withValues(alpha: 0.15),
+                      ColorConstant.colorPrimaryDark.withValues(alpha: 0.65),
+                    ],
                     begin: Alignment.topCenter,
                     end: Alignment.bottomCenter,
-                    colors: [
-                      ColorConstant.colorPrimaryDark.withValues(alpha: 0.35),
-                      Colors.black.withValues(alpha: 0.65),
-                    ],
                   ),
                 ),
+                padding: const EdgeInsets.fromLTRB(24, 52, 24, 30),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    // BAR ATAS: Tagline di kiri dan Logo IDN di kanan
+                    // Baris Salam & Badge Tanggal/Aplikasi
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
-                        // Chip Tagline Islami kecil
                         Container(
-                          padding: const EdgeInsets.symmetric(
-                            horizontal: 10,
-                            vertical: 5,
-                          ),
+                          padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 6),
                           decoration: BoxDecoration(
-                            color: Colors.white.withValues(alpha: 0.18),
+                            color: Colors.white.withValues(alpha: 0.22),
                             borderRadius: BorderRadius.circular(20),
                             border: Border.all(
-                              color: Colors.white.withValues(alpha: 0.25),
+                              color: Colors.white.withValues(alpha: 0.35),
                             ),
                           ),
-                          child: const Row(
-                            mainAxisSize: MainAxisSize.min,
-                            children: [
-                              Icon(
-                                Icons.stars_rounded,
-                                color: Colors.white,
-                                size: 14,
-                              ),
-                              SizedBox(width: 5),
+                          child: Row(
+                            children: const [
+                              Icon(Icons.mosque_rounded, size: 16, color: Colors.white),
+                              SizedBox(width: 8),
                               Text(
-                                'Islamic Lifestyle',
+                                'Bitaqwa Islamic App',
                                 style: TextStyle(
                                   color: Colors.white,
-                                  fontSize: 11,
-                                  fontWeight: FontWeight.w500,
+                                  fontSize: 12,
+                                  fontWeight: FontWeight.w600,
                                 ),
                               ),
                             ],
                           ),
                         ),
-                        // Logo IDN
                         Container(
-                          height: 38,
-                          width: 48,
-                          padding: const EdgeInsets.symmetric(
-                            horizontal: 5,
-                            vertical: 4,
-                          ),
                           decoration: BoxDecoration(
-                            color: Colors.white,
-                            borderRadius: BorderRadius.circular(10),
-                            boxShadow: [
-                              BoxShadow(
-                                color: Colors.black.withValues(alpha: 0.15),
-                                blurRadius: 6,
-                                offset: const Offset(0, 2),
-                              ),
-                            ],
+                            color: Colors.white.withValues(alpha: 0.22),
+                            shape: BoxShape.circle,
                           ),
-                          child: ClipRRect(
-                            borderRadius: BorderRadius.circular(6),
-                            child: Image.asset(
-                              'assets/images/logo.png',
-                              fit: BoxFit.contain,
-                            ),
+                          child: IconButton(
+                            icon: const Icon(Icons.notifications_none_rounded, color: Colors.white),
+                            onPressed: () {},
                           ),
                         ),
                       ],
                     ),
-
-                    // TEKS SAPAAN DI BAGIAN BAWAH BANNER
-                    const Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          'Assalamu\'alaikum,',
-                          style: TextStyle(
-                            fontSize: 15,
-                            color: Colors.white70,
-                            fontWeight: FontWeight.w500,
-                            letterSpacing: 0.3,
-                          ),
-                        ),
-                        SizedBox(height: 4),
-                        Text(
-                          'Bitaqwa App',
-                          style: TextStyle(
-                            fontSize: 26,
-                            fontWeight: FontWeight.bold,
-                            color: Colors.white,
-                            letterSpacing: 0.5,
-                          ),
-                        ),
-                      ],
+                    const Spacer(),
+                    const Text(
+                      'Assalamu\'alaikum,',
+                      style: TextStyle(
+                        fontSize: 16,
+                        color: Colors.white70,
+                        fontWeight: FontWeight.w400,
+                      ),
+                    ),
+                    const SizedBox(height: 2),
+                    const Text(
+                      'Mari Dekat dengan Kebaikan',
+                      style: TextStyle(
+                        fontSize: 22,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.white,
+                        letterSpacing: 0.3,
+                      ),
                     ),
                   ],
                 ),
               ),
             ),
-
             const SizedBox(height: 24),
 
-            // LABEL SECTION
-            const Padding(
-              padding: EdgeInsets.symmetric(horizontal: 20),
-              child: Text(
-                'Menu Utama',
-                style: TextStyle(
-                  fontSize: 17,
-                  fontWeight: FontWeight.bold,
-                  color: ColorConstant.colorText,
-                  letterSpacing: 0.2,
+            // 2. KARTU INSPIRASI HARIAN / QUOTE ISLAMI
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 20),
+              child: Container(
+                padding: const EdgeInsets.all(18),
+                decoration: BoxDecoration(
+                  gradient: const LinearGradient(
+                    colors: [Color(0xFFE8F6F3), Color(0xFFD4EFE9)],
+                    begin: Alignment.topLeft,
+                    end: Alignment.bottomRight,
+                  ),
+                  borderRadius: BorderRadius.circular(22),
+                  border: Border.all(
+                    color: ColorConstant.colorPrimaryLight.withValues(alpha: 0.4),
+                  ),
+                  boxShadow: [
+                    BoxShadow(
+                      color: ColorConstant.colorPrimary.withValues(alpha: 0.08),
+                      blurRadius: 14,
+                      offset: const Offset(0, 4),
+                    ),
+                  ],
+                ),
+                child: Row(
+                  children: [
+                    Container(
+                      padding: const EdgeInsets.all(10),
+                      decoration: BoxDecoration(
+                        color: ColorConstant.colorPrimary.withValues(alpha: 0.15),
+                        shape: BoxShape.circle,
+                      ),
+                      child: const Icon(
+                        Icons.auto_awesome_rounded,
+                        color: ColorConstant.colorPrimaryDark,
+                        size: 26,
+                      ),
+                    ),
+                    const SizedBox(width: 14),
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: const [
+                          Text(
+                            'Kebaikan Hari Ini',
+                            style: TextStyle(
+                              fontSize: 13,
+                              fontWeight: FontWeight.bold,
+                              color: ColorConstant.colorPrimaryDark,
+                            ),
+                          ),
+                          SizedBox(height: 3),
+                          Text(
+                            '"Sebaik-baik manusia adalah yang paling bermanfaat bagi sesama."',
+                            style: TextStyle(
+                              fontSize: 12,
+                              fontStyle: FontStyle.italic,
+                              color: ColorConstant.colorText,
+                              height: 1.35,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
                 ),
               ),
             ),
+            const SizedBox(height: 26),
 
-            const SizedBox(height: 14),
+            // 3. SECTION TITLE
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 22),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Row(
+                    children: [
+                      Container(
+                        width: 4,
+                        height: 18,
+                        decoration: BoxDecoration(
+                          color: ColorConstant.colorPrimary,
+                          borderRadius: BorderRadius.circular(4),
+                        ),
+                      ),
+                      const SizedBox(width: 8),
+                      const Text(
+                        'Fitur Unggulan',
+                        style: TextStyle(
+                          fontSize: 18,
+                          fontWeight: FontWeight.bold,
+                          color: ColorConstant.colorText,
+                        ),
+                      ),
+                    ],
+                  ),
+                  const Text(
+                    '4 Menu Utama',
+                    style: TextStyle(
+                      fontSize: 12,
+                      color: ColorConstant.colorTextLight,
+                      fontWeight: FontWeight.w500,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            const SizedBox(height: 16),
 
-            // 2. GRID MENU FITUR (4 TOMBOL MENU UTAMA DENGAN MATERIAL & CARD EFFECT)
+            // 4. GRID MENU FITUR MODERN BERGAYA CARD FLOATING
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 20),
               child: GridView.builder(
                 shrinkWrap: true,
-                padding: EdgeInsets.zero,
                 physics: const NeverScrollableScrollPhysics(),
                 gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                   crossAxisCount: 2,
                   crossAxisSpacing: 16,
                   mainAxisSpacing: 16,
-                  childAspectRatio: 0.95,
+                  childAspectRatio: 0.98,
                 ),
                 itemCount: menus.length,
                 itemBuilder: (context, index) {
                   final menu = menus[index];
                   return Material(
-                    color: const Color.fromARGB(255, 255, 255, 255),
-                    borderRadius: BorderRadius.circular(18),
-                    elevation: 1.5,
-                    shadowColor: Colors.black.withValues(alpha: 0.12),
+                    color: Colors.transparent,
                     child: InkWell(
-                      borderRadius: BorderRadius.circular(18),
-                      hoverColor: ColorConstant.colorPrimary.withValues(
-                        alpha: 0.12,
-                      ),
-                      splashColor: ColorConstant.colorPrimary.withValues(
-                        alpha: 0.12,
-                      ),
-                      highlightColor: ColorConstant.colorPrimary.withValues(
-                        alpha: 0.15,
-                      ),
+                      borderRadius: BorderRadius.circular(24),
                       onTap: () {
                         Navigator.pushNamed(context, menu.route);
                       },
-                      child: Container(
-                        padding: const EdgeInsets.symmetric(
-                          horizontal: 14,
-                          vertical: 16,
-                        ),
+                      child: Ink(
                         decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(18),
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(24),
                           border: Border.all(
-                            color: Colors.black.withValues(alpha: 0.04),
-                            width: 1,
+                            color: Colors.white,
+                            width: 1.5,
                           ),
+                          boxShadow: [
+                            BoxShadow(
+                              color: ColorConstant.colorPrimary.withValues(alpha: 0.08),
+                              blurRadius: 16,
+                              offset: const Offset(0, 6),
+                            ),
+                          ],
                         ),
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            // Lingkaran background icon lembut
                             Container(
-                              padding: const EdgeInsets.all(12),
+                              padding: const EdgeInsets.all(16),
                               decoration: BoxDecoration(
                                 color: ColorConstant.colorAccent,
                                 shape: BoxShape.circle,
+                                border: Border.all(
+                                  color: Colors.white,
+                                  width: 3,
+                                ),
+                                boxShadow: [
+                                  BoxShadow(
+                                    color: ColorConstant.colorPrimary.withValues(alpha: 0.1),
+                                    blurRadius: 10,
+                                    offset: const Offset(0, 4),
+                                  ),
+                                ],
                               ),
                               child: Image.asset(
                                 menu.image,
-                                height: 44,
-                                width: 44,
+                                height: 46,
+                                width: 46,
                               ),
                             ),
-                            const SizedBox(height: 10),
-                            // Label Judul Menu
+                            const SizedBox(height: 14),
                             Text(
                               menu.title,
                               textAlign: TextAlign.center,
-                              maxLines: 1,
-                              overflow: TextOverflow.ellipsis,
                               style: const TextStyle(
                                 fontSize: 14,
                                 fontWeight: FontWeight.bold,
                                 color: ColorConstant.colorText,
+                                letterSpacing: 0.2,
                               ),
                             ),
-                            const SizedBox(height: 3),
-                            // Deskripsi Tombol Menu
-                            Text(
-                              menu.description,
-                              textAlign: TextAlign.center,
-                              maxLines: 1,
-                              overflow: TextOverflow.ellipsis,
-                              style: TextStyle(
-                                fontSize: 11,
-                                color: ColorConstant.colorText.withValues(
-                                  alpha: 0.65,
+                            const SizedBox(height: 4),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: const [
+                                Text(
+                                  'Buka Fitur',
+                                  style: TextStyle(
+                                    fontSize: 11,
+                                    color: ColorConstant.colorPrimaryDark,
+                                    fontWeight: FontWeight.w600,
+                                  ),
                                 ),
-                              ),
+                                SizedBox(width: 4),
+                                Icon(
+                                  Icons.arrow_forward_rounded,
+                                  size: 12,
+                                  color: ColorConstant.colorPrimaryDark,
+                                ),
+                              ],
                             ),
                           ],
                         ),
@@ -271,7 +324,7 @@ class BasicDashboardScreen extends StatelessWidget {
                 },
               ),
             ),
-            const SizedBox(height: 32),
+            const SizedBox(height: 36),
           ],
         ),
       ),

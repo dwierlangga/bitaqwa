@@ -1,4 +1,4 @@
-// MODEL MENU: Kerangka data untuk tombol menu di Dashboard utama
+﻿// MODEL MENU: Kerangka data untuk tombol menu di Dashboard utama
 class MenuModel {
   // 1. Label nama menu (misal: 'Doa-doa', 'Zakat')
   final String title;
@@ -6,13 +6,10 @@ class MenuModel {
   final String image;
   // 3. Alamat rute navigasi saat tombol ditekan
   final String route;
-  // 4. Deskripsi singkat menu
-  final String description;
 
   const MenuModel({
     required this.title,
     required this.image,
     required this.route,
-    required this.description,
   });
 }

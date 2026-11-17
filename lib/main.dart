@@ -1,4 +1,4 @@
-// === BAGIAN 1: IMPORT ===
+﻿// === BAGIAN 1: IMPORT ===
 // Mengambil halaman Dashboard (TUGAS 1 - AKTIF)
 import 'package:bitaqwa/dashboard/basicdashboard_screen.dart';
 
@@ -9,10 +9,10 @@ import 'package:bitaqwa/zakat/zakat_screen.dart';
 import 'package:bitaqwa/kajian_online/video_kajian_screen.dart';
 
 // TUGAS 4 - Doa Harian (belum dihubungkan)
-// import 'package:bitaqwa/doa_harian/doa_screen.dart';
+import 'package:bitaqwa/doa_harian/doa_screen.dart';
 
 // TUGAS 5 - Jadwal Sholat (belum dihubungkan)
-// import 'package:bitaqwa/jadwal_sholat/jadwal_sholat_screen.dart';
+import 'package:bitaqwa/jadwal_sholat/jadwal_sholat_screen.dart';
 
 // Mengambil pustaka UI Material Flutter
 import 'package:flutter/material.dart';
@@ -43,13 +43,18 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       // Judul aplikasi pada sistem
       title: 'Bitaqwa App',
-      // Pengaturan tema warna dasar aplikasi
+      debugShowCheckedModeBanner: false,
+      // Pengaturan tema warna dasar & Font Poppins terpadu
       theme: ThemeData(
-        //colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+        fontFamily: 'Poppins',
+        scaffoldBackgroundColor: const Color(0xFFF7FAF9),
+        colorScheme: ColorScheme.fromSeed(
+          seedColor: const Color(0xFF107A68),
+          primary: const Color(0xFF107A68),
+        ),
         useMaterial3: true,
       ),
       // ROUTES: Denah jalan / peta navigasi antar halaman
-      initialRoute: '/',
       routes: {
         '/': (context) =>
             const BasicDashboardScreen(), // Halaman awal (Dashboard) - TUGAS 1
@@ -60,10 +65,10 @@ class MyApp extends StatelessWidget {
         'video-kajian': (context) => const VideoKajianScreen(),
 
         // TUGAS 4 - Tambahkan route doa di sini saat mengerjakan Tugas 4:
-        // 'doa': (context) => const DoaScreen(),
+        'doa': (context) => const DoaScreen(),
 
         // TUGAS 5 - Tambahkan route jadwal sholat di sini saat mengerjakan Tugas 5:
-        // 'jadwal-sholat': (context) => const JadwalSholatScreen(),
+        'jadwal-sholat': (context) => const JadwalSholatScreen(),
       },
     );
   }

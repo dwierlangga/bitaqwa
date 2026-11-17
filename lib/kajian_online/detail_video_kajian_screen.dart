@@ -1,8 +1,8 @@
+import 'package:bitaqwa/theme/color_constant.dart';
 import 'package:flutter/material.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
-import 'package:bitaqwa/dashboard/color_constant.dart';
 
-// SCREEN DETAIL VIDEO KAJIAN: Memutar video YouTube langsung di dalam aplikasi
+// SCREEN DETAIL VIDEO KAJIAN: Tampilan pemutar video YouTube modern, rapi, dan responsif
 class DetailVideoKajianScreen extends StatefulWidget {
   final String url;
   final String account;
@@ -25,7 +25,6 @@ class DetailVideoKajianScreen extends StatefulWidget {
 }
 
 class _DetailVideoKajianScreenState extends State<DetailVideoKajianScreen> {
-  // Kontroler pemutar YouTube
   late final YoutubePlayerController _controller;
   bool _isPlayerReady = false;
 
@@ -33,14 +32,12 @@ class _DetailVideoKajianScreenState extends State<DetailVideoKajianScreen> {
   void initState() {
     super.initState();
 
-    // 1. Mengubah URL YouTube menjadi Video ID (misal: "kOnZ_Jv_C6k")
     final videoId = YoutubePlayerController.convertUrlToId(widget.url);
 
     if (videoId == null) {
-      throw Exception("URL Youtube tidak valid : \${widget.url}");
+      throw Exception("URL Youtube tidak valid : ${widget.url}");
     }
 
-    // 2. Konfigurasi kontroler YouTube player
     _controller = YoutubePlayerController(
       params: const YoutubePlayerParams(
         showControls: true,
@@ -50,7 +47,6 @@ class _DetailVideoKajianScreenState extends State<DetailVideoKajianScreen> {
       ),
     );
 
-    // 3. Listener saat video siap dimainkan
     _controller.listen((value) {
       if (!_isPlayerReady && value.playerState != PlayerState.unknown) {
         setState(() {
@@ -59,13 +55,11 @@ class _DetailVideoKajianScreenState extends State<DetailVideoKajianScreen> {
       }
     });
 
-    // 4. Memuat video berdasarkan videoId
     _controller.loadVideoById(videoId: videoId);
   }
 
   @override
   void dispose() {
-    // Menutup pemutar saat keluar dari layar agar memori HP bersih
     _controller.close();
     super.dispose();
   }
@@ -75,151 +69,178 @@ class _DetailVideoKajianScreenState extends State<DetailVideoKajianScreen> {
     return YoutubePlayerControllerProvider(
       controller: _controller,
       child: Scaffold(
-        backgroundColor: const Color(0xFFF8FAFC),
+        backgroundColor: ColorConstant.colorBackground,
         appBar: AppBar(
-          backgroundColor: Colors.white,
+          backgroundColor: ColorConstant.colorPrimary,
           elevation: 0,
-          centerTitle: true,
           leading: IconButton(
             icon: const Icon(
               Icons.arrow_back_ios_new_rounded,
-              color: ColorConstant.colorText,
+              color: Colors.white,
               size: 20,
             ),
             onPressed: () => Navigator.pop(context),
           ),
           title: const Text(
-            'Detail Kajian',
+            'Pemutar Kajian',
             style: TextStyle(
-              color: ColorConstant.colorText,
-              fontSize: 18,
+              color: Colors.white,
               fontWeight: FontWeight.bold,
+              fontSize: 18,
             ),
           ),
+          centerTitle: true,
         ),
         body: SingleChildScrollView(
+          physics: const BouncingScrollPhysics(),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              // Player YouTube dengan rounded corner halus
+              // Frame Pemutar Video dengan Sudut Melengkung & Bayangan
               Container(
-                margin: const EdgeInsets.all(16),
                 decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(16),
+                  color: Colors.black,
                   boxShadow: [
                     BoxShadow(
-                      color: Colors.black.withOpacity(0.12),
-                      blurRadius: 16,
+                      color: Colors.black.withValues(alpha: 0.15),
+                      blurRadius: 14,
                       offset: const Offset(0, 4),
                     ),
                   ],
                 ),
-                child: ClipRRect(
-                  borderRadius: BorderRadius.circular(16),
-                  child: YoutubePlayer(controller: _controller),
-                ),
+                child: YoutubePlayer(controller: _controller),
               ),
               if (!_isPlayerReady)
-                const Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 16),
-                  child: LinearProgressIndicator(),
+                const LinearProgressIndicator(
+                  color: ColorConstant.colorPrimary,
+                  backgroundColor: ColorConstant.colorAccent,
                 ),
 
-              const SizedBox(height: 8),
-
-              // Kotak Informasi Konten Video
-              Container(
-                width: double.infinity,
-                margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+              // Detail Informasi Kajian
+              Padding(
                 padding: const EdgeInsets.all(20),
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.circular(20),
-                  boxShadow: [
-                    BoxShadow(
-                      color: Colors.black.withOpacity(0.04),
-                      blurRadius: 12,
-                      offset: const Offset(0, 4),
-                    ),
-                  ],
-                ),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    // Badge Ustadz & Channel
+                    // Badge Akun & Ustadz
                     Row(
                       children: [
                         Container(
-                          padding: const EdgeInsets.symmetric(
-                            horizontal: 12,
-                            vertical: 6,
-                          ),
+                          padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 5),
                           decoration: BoxDecoration(
                             color: ColorConstant.colorAccent,
-                            borderRadius: BorderRadius.circular(10),
-                          ),
-                          child: Text(
-                            widget.ustadz,
-                            style: TextStyle(
-                              fontSize: 13,
-                              fontWeight: FontWeight.bold,
-                              color: ColorConstant.colorPrimaryDark,
+                            borderRadius: BorderRadius.circular(12),
+                            border: Border.all(
+                              color: ColorConstant.colorPrimaryLight.withValues(alpha: 0.5),
                             ),
+                          ),
+                          child: Row(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              const Icon(
+                                Icons.person_rounded,
+                                size: 14,
+                                color: ColorConstant.colorPrimaryDark,
+                              ),
+                              const SizedBox(width: 6),
+                              Text(
+                                widget.ustadz,
+                                style: const TextStyle(
+                                  fontSize: 12,
+                                  fontWeight: FontWeight.bold,
+                                  color: ColorConstant.colorPrimaryDark,
+                                ),
+                              ),
+                            ],
                           ),
                         ),
                         const SizedBox(width: 10),
                         Expanded(
                           child: Text(
                             widget.account,
-                            style: TextStyle(
-                              fontSize: 13,
-                              color: Colors.grey.shade600,
+                            style: const TextStyle(
+                              fontSize: 12,
+                              color: ColorConstant.colorTextSecondary,
+                              fontWeight: FontWeight.w500,
                             ),
+                            maxLines: 1,
                             overflow: TextOverflow.ellipsis,
                           ),
                         ),
                       ],
                     ),
-
                     const SizedBox(height: 14),
 
-                    // Judul Video
+                    // Judul Kajian
                     Text(
                       widget.title,
                       style: const TextStyle(
-                        fontSize: 18,
+                        fontSize: 19,
                         fontWeight: FontWeight.bold,
                         color: ColorConstant.colorText,
                         height: 1.35,
                       ),
                     ),
+                    const SizedBox(height: 18),
 
-                    const Divider(height: 28),
-
-                    // Label Deskripsi
-                    const Text(
-                      'Deskripsi Kajian',
-                      style: TextStyle(
-                        fontSize: 14,
-                        fontWeight: FontWeight.bold,
-                        color: ColorConstant.colorText,
+                    // Kotak Deskripsi Kajian Modern
+                    Container(
+                      padding: const EdgeInsets.all(18),
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(20),
+                        border: Border.all(
+                          color: const Color(0xFFF1F5F9),
+                          width: 1.5,
+                        ),
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.black.withValues(alpha: 0.03),
+                            blurRadius: 10,
+                            offset: const Offset(0, 3),
+                          ),
+                        ],
+                      ),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Row(
+                            children: const [
+                              Icon(
+                                Icons.notes_rounded,
+                                size: 18,
+                                color: ColorConstant.colorPrimary,
+                              ),
+                              SizedBox(width: 8),
+                              Text(
+                                'Ringkasan & Pembahasan',
+                                style: TextStyle(
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.bold,
+                                  color: ColorConstant.colorText,
+                                ),
+                              ),
+                            ],
+                          ),
+                          const Padding(
+                            padding: EdgeInsets.symmetric(vertical: 12),
+                            child: Divider(height: 1, color: Color(0xFFF1F5F9)),
+                          ),
+                          Text(
+                            widget.description,
+                            style: const TextStyle(
+                              fontSize: 14,
+                              height: 1.65,
+                              color: ColorConstant.colorTextSecondary,
+                            ),
+                          ),
+                        ],
                       ),
                     ),
-                    const SizedBox(height: 8),
-
-                    // Isi Deskripsi
-                    Text(
-                      widget.description,
-                      style: TextStyle(
-                        fontSize: 14,
-                        height: 1.6,
-                        color: ColorConstant.colorText.withOpacity(0.8),
-                      ),
-                    ),
+                    const SizedBox(height: 26),
                   ],
                 ),
               ),
-              const SizedBox(height: 24),
             ],
           ),
         ),
