@@ -1,4 +1,4 @@
-﻿import 'dart:convert';
+import 'dart:convert';
 import 'package:bitaqwa/jadwal_sholat/lokasi_model.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:http/http.dart' as http;
@@ -35,19 +35,27 @@ class LocationService {
       );
     }
 
-    // 3. MENGAMBIL KOORDINAT GPS (Latitude & Longitude) dari sensor HP
-    final position = await Geolocator.getCurrentPosition();
+    // 3. MENGAMBIL KOORDINAT GPS dengan Timeout cepat & Fallback
+    Position? position;
+    try {
+      position = await Geolocator.getCurrentPosition(
+        timeLimit: const Duration(seconds: 4),
+      );
+    } catch (_) {
+      position = await Geolocator.getLastKnownPosition();
+    }
+
+    // Jika emulator/HP tidak menghasilkan sinyal GPS, gunakan koordinat default (Jakarta)
+    final double lat = position?.latitude ?? -6.2088;
+    final double lon = position?.longitude ?? 106.8456;
 
     // 4. MENCARI NAMA KOTA: Mengirim koordinat angka ke server peta OpenStreetMap
-    final location = await _getLocationName(
-      position.latitude,
-      position.longitude,
-    );
+    final location = await _getLocationName(lat, lon);
 
     // 5. Kembalikan paket data lokasi yang sudah lengkap
     return LocationModel(
-      latitude: position.latitude,
-      longitude: position.longitude,
+      latitude: lat,
+      longitude: lon,
       city: location["city"]!,
       district: location["district"]!,
     );
@@ -66,36 +74,40 @@ class LocationService {
       "&lon=$longitude",
     );
 
-    // Mengirim permintaan data (HTTP GET Request) lewat internet
-    final response = await http.get(
-      url,
-      headers: {"User-Agent": "Bitaqwa/1.0"},
-    );
+    // Mengirim permintaan data (HTTP GET Request) lewat internet dengan timeout
+    try {
+      final response = await http.get(
+        url,
+        headers: {"User-Agent": "Bitaqwa/1.0"},
+      ).timeout(const Duration(seconds: 4));
 
-    // Jika server internet gagal merespon (bukan status 200 OK), kembalikan nilai cadangan
-    if (response.statusCode != 200) {
-      return {"city": "Lokasi Tidak Diketahui", "district": ""};
+      // Jika server internet gagal merespon (bukan status 200 OK), kembalikan nilai cadangan
+      if (response.statusCode != 200) {
+        return {"city": "Jakarta", "district": ""};
+      }
+
+      // Mengurai teks data JSON dari server
+      final json = jsonDecode(response.body);
+      final address = json["address"] ?? {};
+
+      // Mencari nama kota dari beberapa kemungkinan kolom alamat
+      final city =
+          address["city"] ??
+          address["municipality"] ??
+          address["town"] ??
+          address["county"] ??
+          address["state"] ??
+          "Jakarta";
+
+      // Mencari nama kecamatan / kelurahan
+      final district =
+          address["suburb"] ?? address["village"] ?? address["hamlet"] ?? "";
+
+      // Kembalikan nama kota dan kecamatan
+      return {"city": city, "district": district};
+    } catch (_) {
+      return {"city": "Jakarta", "district": ""};
     }
-
-    // Mengurai teks data JSON dari server
-    final json = jsonDecode(response.body);
-    final address = json["address"] ?? {};
-
-    // Mencari nama kota dari beberapa kemungkinan kolom alamat
-    final city =
-        address["city"] ??
-        address["municipality"] ??
-        address["town"] ??
-        address["county"] ??
-        address["state"] ??
-        "Lokasi Tidak Diketahui";
-
-    // Mencari nama kecamatan / kelurahan
-    final district =
-        address["suburb"] ?? address["village"] ?? address["hamlet"] ?? "";
-
-    // Kembalikan nama kota dan kecamatan
-    return {"city": city, "district": district};
   }
 }
 

@@ -20,7 +20,9 @@ class BasicDashboardScreen extends StatelessWidget {
               decoration: const BoxDecoration(
                 gradient: ColorConstant.primaryGradient,
                 image: DecorationImage(
-                  image: AssetImage('assets/images/bg_header_dashboard_morning.png'),
+                  image: AssetImage(
+                    'assets/images/bg_header_dashboard_morning.png',
+                  ),
                   fit: BoxFit.cover,
                 ),
                 borderRadius: BorderRadius.only(
@@ -52,7 +54,10 @@ class BasicDashboardScreen extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Container(
-                          padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 6),
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 14,
+                            vertical: 6,
+                          ),
                           decoration: BoxDecoration(
                             color: Colors.white.withValues(alpha: 0.22),
                             borderRadius: BorderRadius.circular(20),
@@ -62,7 +67,11 @@ class BasicDashboardScreen extends StatelessWidget {
                           ),
                           child: Row(
                             children: const [
-                              Icon(Icons.mosque_rounded, size: 16, color: Colors.white),
+                              Icon(
+                                Icons.mosque_rounded,
+                                size: 16,
+                                color: Colors.white,
+                              ),
                               SizedBox(width: 8),
                               Text(
                                 'Bitaqwa Islamic App',
@@ -81,7 +90,10 @@ class BasicDashboardScreen extends StatelessWidget {
                             shape: BoxShape.circle,
                           ),
                           child: IconButton(
-                            icon: const Icon(Icons.notifications_none_rounded, color: Colors.white),
+                            icon: const Icon(
+                              Icons.notifications_none_rounded,
+                              color: Colors.white,
+                            ),
                             onPressed: () {},
                           ),
                         ),
@@ -125,7 +137,9 @@ class BasicDashboardScreen extends StatelessWidget {
                   ),
                   borderRadius: BorderRadius.circular(22),
                   border: Border.all(
-                    color: ColorConstant.colorPrimaryLight.withValues(alpha: 0.4),
+                    color: ColorConstant.colorPrimaryLight.withValues(
+                      alpha: 0.4,
+                    ),
                   ),
                   boxShadow: [
                     BoxShadow(
@@ -140,7 +154,9 @@ class BasicDashboardScreen extends StatelessWidget {
                     Container(
                       padding: const EdgeInsets.all(10),
                       decoration: BoxDecoration(
-                        color: ColorConstant.colorPrimary.withValues(alpha: 0.15),
+                        color: ColorConstant.colorPrimary.withValues(
+                          alpha: 0.15,
+                        ),
                         shape: BoxShape.circle,
                       ),
                       child: const Icon(
@@ -236,53 +252,57 @@ class BasicDashboardScreen extends StatelessWidget {
                 itemCount: menus.length,
                 itemBuilder: (context, index) {
                   final menu = menus[index];
-                  return Material(
-                    color: Colors.transparent,
-                    child: InkWell(
+                  return Container(
+                    decoration: BoxDecoration(
+                      color: Colors.white,
                       borderRadius: BorderRadius.circular(24),
-                      onTap: () {
-                        Navigator.pushNamed(context, menu.route);
-                      },
-                      child: Ink(
-                        decoration: BoxDecoration(
-                          color: Colors.white,
-                          borderRadius: BorderRadius.circular(24),
-                          border: Border.all(
-                            color: Colors.white,
-                            width: 1.5,
+                      border: Border.all(color: Colors.white, width: 1.5),
+                      boxShadow: [
+                        BoxShadow(
+                          color: ColorConstant.colorPrimary.withValues(
+                            alpha: 0.08,
                           ),
-                          boxShadow: [
-                            BoxShadow(
-                              color: ColorConstant.colorPrimary.withValues(alpha: 0.08),
-                              blurRadius: 16,
-                              offset: const Offset(0, 6),
-                            ),
-                          ],
+                          blurRadius: 16,
+                          offset: const Offset(0, 6),
                         ),
+                      ],
+                    ),
+                    child: Material(
+                      color: Colors.transparent,
+                      borderRadius: BorderRadius.circular(24),
+                      clipBehavior: Clip.antiAlias,
+                      child: InkWell(
+                        onTap: () {
+                          Navigator.pushNamed(context, menu.route);
+                        },
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             Container(
                               padding: const EdgeInsets.all(16),
                               decoration: BoxDecoration(
-                                color: ColorConstant.colorAccent,
+                                gradient: const LinearGradient(
+                                  colors: [ColorConstant.colorAccent, Color(0xFFE8E5CE)],
+                                  begin: Alignment.topLeft,
+                                  end: Alignment.bottomRight,
+                                ),
                                 shape: BoxShape.circle,
                                 border: Border.all(
-                                  color: Colors.white,
-                                  width: 3,
+                                  color: ColorConstant.colorSand.withValues(alpha: 0.6),
+                                  width: 2,
                                 ),
                                 boxShadow: [
                                   BoxShadow(
-                                    color: ColorConstant.colorPrimary.withValues(alpha: 0.1),
+                                    color: ColorConstant.colorPrimaryDark.withValues(alpha: 0.08),
                                     blurRadius: 10,
                                     offset: const Offset(0, 4),
                                   ),
                                 ],
                               ),
-                              child: Image.asset(
-                                menu.image,
-                                height: 46,
-                                width: 46,
+                              child: Icon(
+                                menu.icon ?? Icons.apps_rounded,
+                                size: 30,
+                                color: ColorConstant.colorPrimaryDark,
                               ),
                             ),
                             const SizedBox(height: 14),

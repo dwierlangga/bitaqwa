@@ -163,6 +163,7 @@ class VideoKajianScreen extends StatelessWidget {
                                     child: Image.asset(
                                       video.thumbnail,
                                       fit: BoxFit.cover,
+                                      cacheWidth: 600,
                                       errorBuilder: (context, error, stackTrace) => Container(
                                         color: ColorConstant.colorAccent,
                                         child: const Icon(

@@ -1,20 +1,38 @@
 import 'package:flutter/material.dart';
 
-// Kelas ColorConstant: Palet warna Emerald Islamic khas Bitaqwa App (Tenang, Teduh, & Modern)
+// Kelas ColorConstant: Palet warna tema Earthy Islamic Gold (Elegan, Hangat, & Mewah Alami)
 class ColorConstant {
-  // Warna Utama (Emerald Islamic / Hijau Zamrud Elegan)
-  static const Color colorPrimary = Color(0xFF107A68);
-  static const Color colorPrimaryDark = Color(0xFF095246);
-  static const Color colorPrimaryLight = Color(0xFF34A692);
+  // 1. Deep Olive Charcoal / Paling Gelap (#28301C)
+  static const Color colorPrimaryDark = Color(0xFF28301C);
 
-  // Gradien Header Utama Islami
+  // 2. Forest Olive / Warna Primer (#323D25)
+  static const Color colorPrimary = Color(0xFF323D25);
+
+  // 3. Warm Ochre Gold / Aksen Emas (#9A7E3B)
+  static const Color colorGold = Color(0xFF9A7E3B);
+  static const Color colorPrimaryLight = Color(0xFF9A7E3B);
+
+  // 4. Soft Sand Crema / Aksen Lembut & Background (#D2CF9A)
+  static const Color colorSand = Color(0xFFD2CF9A);
+  static const Color colorAccent = Color(0xFFF4F3E8);      // Versi pastel lembut dari #D2CF9A untuk kartu
+  static const Color colorAccentLight = Color(0xFFFAF9F3); // Crema sangat lembut
+  static const Color colorBackground = Color(0xFFF8F7F2);  // Sand off-white hangat
+
+  // Gradien Header Utama Islami (Kombinasi Deep Olive & Gold yang Mewah)
   static const LinearGradient primaryGradient = LinearGradient(
-    colors: [Color(0xFF0D6B5B), Color(0xFF169882)],
+    colors: [Color(0xFF28301C), Color(0xFF3E4D2E)],
     begin: Alignment.topLeft,
     end: Alignment.bottomRight,
   );
 
-  // Gradien Waktu Sholat Siang / Dzuhur (Cerah, Hangat, Langit Siang)
+  // Gradien Aksen Gold Islami
+  static const LinearGradient goldGradient = LinearGradient(
+    colors: [Color(0xFF9A7E3B), Color(0xFFBCA158)],
+    begin: Alignment.topLeft,
+    end: Alignment.bottomRight,
+  );
+
+  // Gradien Waktu Sholat Siang / Dzuhur
   static const LinearGradient dhuhrDayGradient = LinearGradient(
     colors: [Color(0xFF2980B9), Color(0xFF6DD5FA), Color(0xFFFFFFFF)],
     begin: Alignment.topCenter,
@@ -23,7 +41,7 @@ class ColorConstant {
 
   // Gradien Waktu Sholat Pagi / Subuh-Syuruq
   static const LinearGradient fajrMorningGradient = LinearGradient(
-    colors: [Color(0xFF0D6B5B), Color(0xFF2E8B75)],
+    colors: [Color(0xFF1B5E20), Color(0xFF2E7D32)],
     begin: Alignment.topCenter,
     end: Alignment.bottomCenter,
   );
@@ -49,16 +67,13 @@ class ColorConstant {
     end: Alignment.bottomCenter,
   );
 
-  // Aksen Warna & Background
-  static const Color colorAccent = Color(0xFFE8F6F3);       // Mint lembut
-  static const Color colorAccentLight = Color(0xFFF2FBF9);  // Mint sangat lembut
-  static const Color colorBackground = Color(0xFFF7FAF9);   // Off-white kehijauan segar
+  // Warna Putih
   static const Color colorWhite = Color(0xFFFFFFFF);
 
   // Bayangan Halus Modern (Soft UI Shadow)
   static final List<BoxShadow> softShadow = [
     BoxShadow(
-      color: const Color(0xFF107A68).withValues(alpha: 0.12),
+      color: const Color(0xFF1B5E20).withValues(alpha: 0.12),
       blurRadius: 16,
       offset: const Offset(0, 6),
     ),
@@ -73,7 +88,7 @@ class ColorConstant {
   ];
 
   // Hierarki Warna Teks
-  static const Color colorText = Color(0xFF1E293B);          // Slate tajam modern
-  static const Color colorTextSecondary = Color(0xFF64748B); // Slate medium
-  static const Color colorTextLight = Color(0xFF94A3B8);     // Slate soft
+  static const Color colorText = Color(0xFF1E293B);
+  static const Color colorTextSecondary = Color(0xFF64748B);
+  static const Color colorTextLight = Color(0xFF94A3B8);
 }

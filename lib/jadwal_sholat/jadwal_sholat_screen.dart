@@ -1,3 +1,4 @@
+import 'package:bitaqwa/jadwal_sholat/lokasi_model.dart';
 import 'package:bitaqwa/jadwal_sholat/lokasi_service.dart';
 import 'package:bitaqwa/jadwal_sholat/sholat_helper.dart';
 import 'package:bitaqwa/jadwal_sholat/sholat_service.dart';
@@ -32,25 +33,50 @@ class _JadwalSholatScreenState extends State<JadwalSholatScreen> {
     });
 
     try {
-      final location = await LocationService().getCurrentLocation();
+      // 1. Koordinat default awal (Jakarta) agar UI langsung responsif tanpa nunggu GPS
+      double lat = -6.2088;
+      double lon = 106.8456;
+      String cityName = "Jakarta";
+
+      // 2. Coba deteksi lokasi asli di background (maksimal 2 detik)
+      try {
+        final location = await LocationService()
+            .getCurrentLocation()
+            .timeout(const Duration(seconds: 2));
+        lat = location.latitude;
+        lon = location.longitude;
+        cityName = location.city.isNotEmpty ? location.city : "Jakarta";
+      } catch (e) {
+        debugPrint("Location fallback default to Jakarta: $e");
+      }
+
+      if (!mounted) return;
+
+      // 3. Ambil data sholat (maksimal 3 detik)
       final prayer = await PrayerService().getPrayerTimes(
-        latitude: location.latitude,
-        longitude: location.longitude,
+        latitude: lat,
+        longitude: lon,
       );
 
+      if (!mounted) return;
+
       setState(() {
-        _location = location.city;
+        _location = cityName;
         prayerTime = prayer;
       });
     } catch (e) {
+      debugPrint("Error loadData sholat: $e");
+      if (!mounted) return;
       setState(() {
         prayerTime = null;
-        _location = "Lokasi tidak tersedia";
+        _location = "Jakarta";
       });
     } finally {
-      setState(() {
-        _isLoading = false;
-      });
+      if (mounted) {
+        setState(() {
+          _isLoading = false;
+        });
+      }
     }
   }
 
@@ -101,24 +127,16 @@ class _JadwalSholatScreenState extends State<JadwalSholatScreen> {
     return Scaffold(
       backgroundColor: ColorConstant.colorBackground,
       appBar: AppBar(
-        backgroundColor: ColorConstant.colorPrimary,
-        elevation: 0,
-        centerTitle: true,
-        title: const Text(
-          'Jadwal Sholat',
-          style: TextStyle(
-            color: Colors.white,
-            fontWeight: FontWeight.bold,
-            fontSize: 18,
-          ),
-        ),
+        title: const Text('Jadwal Sholat'),
         leading: IconButton(
-          icon: const Icon(
-            Icons.arrow_back_ios_new_rounded,
-            color: Colors.white,
-            size: 20,
-          ),
-          onPressed: () => Navigator.pop(context),
+          icon: const Icon(Icons.arrow_back_ios_new_rounded),
+          onPressed: () {
+            if (Navigator.canPop(context)) {
+              Navigator.pop(context);
+            } else {
+              Navigator.pushReplacementNamed(context, '/');
+            }
+          },
         ),
       ),
       body: _buildBody(),

@@ -6,7 +6,18 @@ class GoldPriceService {
   // Nilai default cadangan jika internet offline atau API sedang tidak dapat dijangkau
   static const int fallbackGoldPricePerGram = 1450000;
 
+  // In-Memory Cache: simpan harga yang sudah didapat agar tidak perlu menembak internet berulang kali
+  static int? _cachedPrice;
+  static DateTime? _lastFetchTime;
+
   Future<int> getGoldPricePerGram() async {
+    // Jika sudah ada cache kurang dari 30 menit, pakai cache langsung (0 detik, tanpa lemot)
+    if (_cachedPrice != null &&
+        _lastFetchTime != null &&
+        DateTime.now().difference(_lastFetchTime!).inMinutes < 30) {
+      return _cachedPrice!;
+    }
+
     // 1. Coba Endpoint 1: GoldPrice Open JSON Feed (Global Spot Rate to IDR)
     try {
       final response = await http
@@ -14,7 +25,7 @@ class GoldPriceService {
             Uri.parse('https://data-asg.goldprice.org/dbXRates/IDR'),
             headers: {'User-Agent': 'Mozilla/5.0 (Bitaqwa App)'},
           )
-          .timeout(const Duration(seconds: 6));
+          .timeout(const Duration(seconds: 2)); // Timeout dipersingkat agar tidak lemot
 
       if (response.statusCode == 200) {
         final data = jsonDecode(response.body);
@@ -22,38 +33,16 @@ class GoldPriceService {
           final item = data['items'][0];
           final num? xauPricePerOunce = item['xauPrice'];
           if (xauPricePerOunce != null && xauPricePerOunce > 0) {
-            // 1 Troy Ounce = 31.1034768 gram
             final double pricePerGram = xauPricePerOunce / 31.1034768;
-            return pricePerGram.round();
+            _cachedPrice = pricePerGram.round();
+            _lastFetchTime = DateTime.now();
+            return _cachedPrice!;
           }
         }
       }
-    } catch (_) {
-      // Lanjut mencoba endpoint cadangan kedua
-    }
+    } catch (_) {}
 
-    // 2. Coba Endpoint 2: GoldPrice.dev keyless convert endpoint
-    try {
-      final response = await http
-          .get(
-            Uri.parse('https://api.goldprice.dev/v1/convert?from=XAU&to=IDR&amount=1&unit=gram'),
-          )
-          .timeout(const Duration(seconds: 6));
-
-      if (response.statusCode == 200) {
-        final data = jsonDecode(response.body);
-        if (data != null && data['result'] != null) {
-          final double? price = double.tryParse(data['result'].toString());
-          if (price != null && price > 0) {
-            return price.round();
-          }
-        }
-      }
-    } catch (_) {
-      // Abaikan dan gunakan nilai cadangan pasar terkini
-    }
-
-    return fallbackGoldPricePerGram;
+    return _cachedPrice ?? fallbackGoldPricePerGram;
   }
 }
 

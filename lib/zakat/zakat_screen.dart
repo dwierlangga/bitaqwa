@@ -169,17 +169,18 @@ class _ZakatScreenState extends State<ZakatScreen> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Row(
+                        mainAxisSize: MainAxisSize.min,
                         children: const [
                           Icon(
                             Icons.auto_graph_rounded,
                             color: ColorConstant.colorPrimaryDark,
-                            size: 20,
+                            size: 18,
                           ),
-                          SizedBox(width: 8),
+                          SizedBox(width: 6),
                           Text(
-                            'Harga Emas Terkini (Live)',
+                            'Harga Emas (Live)',
                             style: TextStyle(
-                              fontSize: 14,
+                              fontSize: 13,
                               fontWeight: FontWeight.bold,
                               color: ColorConstant.colorPrimaryDark,
                             ),
@@ -188,7 +189,7 @@ class _ZakatScreenState extends State<ZakatScreen> {
                       ),
                       Container(
                         padding: const EdgeInsets.symmetric(
-                            horizontal: 10, vertical: 4),
+                            horizontal: 8, vertical: 3),
                         decoration: BoxDecoration(
                           color: _isLivePrice
                               ? const Color(0xFF16A34A).withValues(alpha: 0.15)
@@ -198,10 +199,10 @@ class _ZakatScreenState extends State<ZakatScreen> {
                         ),
                         child: Text(
                           _isLoadingGoldPrice
-                              ? 'Sinkronisasi...'
-                              : (_isLivePrice ? '● Real-time API' : '● Pasar Est.'),
+                              ? 'Sync...'
+                              : (_isLivePrice ? '● Live API' : '● Pasar'),
                           style: TextStyle(
-                            fontSize: 11,
+                            fontSize: 10,
                             fontWeight: FontWeight.bold,
                             color: _isLivePrice
                                 ? const Color(0xFF15803D)

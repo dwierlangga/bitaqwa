@@ -1,4 +1,4 @@
-﻿import 'dart:convert';
+import 'dart:convert';
 import 'package:bitaqwa/jadwal_sholat/waktu_sholat_model.dart';
 import 'package:http/http.dart' as http;
 
@@ -20,8 +20,8 @@ class PrayerService {
         "&method=20",
       );
 
-      // 2. Mengirimkan permintaan data (HTTP GET) ke server Aladhan
-      final response = await http.get(url);
+      // 2. Mengirimkan permintaan data (HTTP GET) ke server Aladhan dengan timeout
+      final response = await http.get(url).timeout(const Duration(seconds: 4));
 
       // 3. Jika server membalas dengan status 200 (Artinya: Berhasil / OK)
       if (response.statusCode == 200) {
